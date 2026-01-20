@@ -1,0 +1,45 @@
+{
+	"name": "hoon-highlight",
+	"displayName": "++  highlight-syntax",
+	"description": "Basic syntax highlighting for the Hoon language",
+	"version": "1.0.4",
+	"publisher": "RaymondEPasco",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "https://git.sr.ht/~ray/hoon-highlight"
+	},
+	"engines": {
+		"vscode": "^1.53.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "hoon",
+				"aliases": [
+					"Hoon",
+					"hoon"
+				],
+				"extensions": [
+					".hoon"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "hoon",
+				"scopeName": "source.hoon",
+				"path": "./syntaxes/hoon.tmLanguage.json"
+			}
+		]
+	},
+	"__metadata": {
+		"installedTimestamp": 1767838570399,
+		"targetPlatform": "undefined",
+		"size": 13757
+	}
+}

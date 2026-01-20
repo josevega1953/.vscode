@@ -1,0 +1,135 @@
+{
+	"name": "qb64-language",
+	"displayName": "QB64/QB64PE",
+	"description": "Syntax highlighting for QB64/QB64PE and related Basic dialects (.bas, .bi, .bm, .inc files)",
+	"version": "1.1.4",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"license": "MIT",
+	"publisher": "GeorgeMcGinn",
+	"keywords": [
+		"QB64",
+		"QB64PE",
+		"QB64 PE",
+		"QB64PE Phoenix Edition",
+		"QBasic",
+		"BASIC"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GeorgeMcGinn/QB64-QB64pe-VSCode-Extension"
+	},
+	"icon": "images/qb64.ico",
+	"files": [
+		"images/**/*.png",
+		"extension.js",
+		"qb64-language-configuration.json",
+		"syntaxes/**",
+		"themes/**"
+	],
+	"main": "extension.js",
+	"activationEvents": [
+		
+		"workspaceContains:**/*.{bas,bi,bm,inc}"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "qb64",
+				"aliases": [
+					"QB64",
+					"QB64pe",
+					"QBasic"
+				],
+				"extensions": [
+					".bas",
+					".bi",
+					".bm",
+					".inc"
+				],
+				"configuration": "./qb64-language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "qb64",
+				"scopeName": "source.basic.qb64",
+				"path": "./syntaxes/qb64.tmlanguage.json"
+			}
+		],
+		"themes": [
+			{
+				"label": "QB64 Theme",
+				"uiTheme": "vs-dark",
+				"path": "./themes/qb64-color-theme.json"
+			}
+		],
+		"commands": [
+			{
+				"command": "basic.run",
+				"title": "Run BASIC Program",
+				"category": "BASIC"
+			},
+			{
+				"command": "basic.runQB64",
+				"title": "Run QB64",
+				"category": "BASIC"
+			},
+			{
+				"command": "basic.runQB64pe",
+				"title": "Run QB64pe",
+				"category": "BASIC"
+			},
+			{
+				"command": "basic.runWithSelection",
+				"title": "Run with Selection",
+				"category": "BASIC"
+			}
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "basic.runQB64",
+					"group": "navigation",
+					"when": "resourceLangId == qb64"
+				},
+				{
+					"command": "basic.runQB64pe",
+					"group": "navigation",
+					"when": "resourceLangId == qb64"
+				}
+			]
+		},
+		"configuration": {
+			"title": "QB64/QB64pe BASIC Extension",
+			"properties": {
+				"basic.defaultCompiler": {
+					"type": "string",
+					"default": "QB64pe",
+					"enum": [
+						"QB64",
+						"QB64pe"
+					],
+					"description": "Select the default compiler for F5 quick run"
+				}
+			}
+		}
+	},
+	"keybindings": [
+		{
+			"command": "basic.run",
+			"key": "ctrl+F5",
+			"when": "editorLangId == qb64",
+			"mac": "cmd+F5"
+		}
+	],
+	"__metadata": {
+		"installedTimestamp": 1767822927654,
+		"targetPlatform": "undefined",
+		"size": 369037
+	}
+}

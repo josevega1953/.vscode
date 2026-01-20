@@ -1,0 +1,141 @@
+{
+	"name": "fortran-ls",
+	"displayName": "FORTRAN IntelliSense",
+	"description": "VSCode interface to the FORTRAN language server",
+	"author": "Chris Hansen",
+	"license": "MIT",
+	"version": "0.6.2",
+	"publisher": "hansec",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hansec/vscode-fortran-ls"
+	},
+	"bugs": {
+		"url": "https://github.com/hansec/vscode-fortran-ls/issues"
+	},
+	"keywords": [
+		"fortran",
+		"intellisense",
+		"autocompletion",
+		"ide"
+	],
+	"categories": [
+		"Programming Languages"
+	],
+	"engines": {
+		"vscode": "^1.26.1"
+	},
+	"activationEvents": [
+		"onLanguage:fortran",
+		"onLanguage:fortran-modern",
+		"onLanguage:fortran_fixed-form",
+		"onLanguage:FortranFreeForm"
+	],
+	"main": "./out/src/extension",
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Fortran IntelliSense",
+			"properties": {
+				"fortran-ls.executablePath": {
+					"scope": "resource",
+					"type": "string",
+					"default": "fortls",
+					"description": "Path to the Fortran language server (fortls)."
+				},
+				"fortran-ls.includeSymbolMem": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Include type members in document outline (also used for 'Go to Symbol in File')"
+				},
+				"fortran-ls.autocompletePrefix": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": false,
+					"description": "Filter autocomplete suggestions with variable prefix"
+				},
+				"fortran-ls.lowercaseIntrinsics": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": false,
+					"description": "Use lowercase for intrinsics and keywords in autocomplete requests."
+				},
+				"fortran-ls.incrementalSync": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Use incremental synchronization for file changes."
+				},
+				"fortran-ls.variableHover": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": false,
+					"description": "Show hover information for variables."
+				},
+				"fortran-ls.hoverSignature": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": false,
+					"description": "Show signature information in hover for argument (also enables 'variableHover')."
+				},
+				"fortran-ls.useSignatureHelp": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Use signature help instead of snippets when available."
+				},
+				"fortran-ls.notifyInit": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": false,
+					"description": "Notify when workspace initialization is complete (requires v1.7.0+)."
+				},
+				"fortran-ls.enableCodeActions": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": false,
+					"description": "Enable experimental code actions (requires v1.7.0+)."
+				},
+				"fortran-ls.maxLineLength": {
+					"scope": "resource",
+					"type": "number",
+					"default": -1,
+					"description": "Maximum line length (requires v1.8.0+)."
+				},
+				"fortran-ls.maxCommentLineLength": {
+					"scope": "resource",
+					"type": "number",
+					"default": -1,
+					"description": "Maximum comment line length (requires v1.8.0+)."
+				},
+				"fortran-ls.displayVerWarning": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Provides notifications when the underlying language server is out of date."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "tsc -p ./",
+		"compile": "tsc -p ./",
+		"watch": "tsc -w -p ./",
+		"update-vscode": "node ./node_modules/vscode/bin/install",
+		"postinstall": "node ./node_modules/vscode/bin/install"
+	},
+	"dependencies": {
+		"vscode-languageclient": "5.1.1"
+	},
+	"devDependencies": {
+		"@types/node": "8.10.29",
+		"typescript": "3.1.6",
+		"vscode": "1.1.21"
+	},
+	"__metadata": {
+		"installedTimestamp": 1768194601408,
+		"targetPlatform": "undefined",
+		"size": 860953
+	}
+}

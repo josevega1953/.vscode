@@ -1,0 +1,268 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Hoon",
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#hoon" }
+  ],
+  "repository": {
+    "comment": {
+      "name": "comment.line.double-colon.hoon",
+      "match": "::.*$"
+    },
+    "hoon": {
+      "patterns": [
+        { "include": "#rune" },
+        { "include": "#arm" },
+        { "include": "#arm-name" },
+        { "include": "#end" },
+        { "include": "#atom" },
+        { "include": "#base" },
+        { "include": "#wing" },
+        { "include": "#string" }
+      ]
+    },
+    "arm": {
+      "name": "storage.type.arm.hoon",
+      "patterns": [
+        {
+          "name": "storage.type.arm.luslus.hoon",
+          "match": "\\+\\+"
+        },
+        {
+          "name": "storage.type.arm.lusbuc.hoon",
+          "match": "\\+\\$"
+        },
+        {
+          "name": "storage.type.arm.lusbar.hoon",
+          "match": "\\+\\|"
+        },
+        {
+          "name": "storage.type.arm.lustar.hoon",
+          "match": "\\+\\*"
+        }
+      ]
+    },
+    "arm-name": {
+      "patterns": [
+        { "include": "#luslus-arm-name" },
+        { "include": "#lusbuc-arm-name" }
+      ]
+    },
+    "luslus-arm-name": {
+      "name": "entity.name.function.arm.hoon",
+      "match": "(?<=\\+\\+  )([a-z][a-z0-9\\-]*|\\$)"
+    },
+    "lusbuc-arm-name": {
+      "name": "entity.name.type.hoon",
+      "match": "(?<=\\+\\$  )([a-z][a-z0-9\\-]*|\\$)"
+    },
+    "end": {
+      "name": "keyword.control.terminator.hoon",
+      "match": "(\\=\\=|\\-\\-)"
+    },
+    "rune": {
+      "name": "keyword.control.rune.hoon",
+      "patterns": [
+        { "include": "#bar" },
+        { "include": "#buc" },
+        { "include": "#cen" },
+        { "include": "#col" },
+        { "include": "#dot" },
+        { "include": "#ket" },
+        { "include": "#mic" },
+        { "include": "#sig" },
+        { "include": "#tis" },
+        { "include": "#wut" },
+        { "include": "#zap" },
+        { "include": "#ford-rune" }
+      ]
+    },
+    "bar": {
+      "name": "keyword.control.rune.bar.hoon",
+      "match": "(?<![a-z0-9\\-])\\|[\\$\\_\\%\\:\\.\\-\\^\\~\\*\\=\\@\\?]"
+    },
+    "buc": {
+      "name": "keyword.control.rune.buc.hoon",
+      "match": "(?<![a-z0-9\\-])\\$[\\_\\%\\:\\<\\>\\-\\^\\&\\~\\@\\=\\?]"
+    },
+    "cen": {
+      "name": "keyword.control.rune.cen.hoon",
+      "match": "(?<![a-z0-9\\-])\\%[\\_\\:\\.\\-\\^\\+\\~\\*\\=]"
+    },
+    "col": {
+      "name": "keyword.control.rune.col.hoon",
+      "match": "(?<![a-z0-9\\-])\\:[\\_\\-\\^\\+\\~\\*]"
+    },
+    "dot": {
+      "name": "keyword.control.rune.dot.hoon",
+      "match": "(?<![a-z0-9\\-])\\.[\\^\\+\\*\\=\\?]"
+    },
+    "ket": {
+      "name": "keyword.control.rune.ket.hoon",
+      "match": "(?<![a-z0-9\\-])\\^[\\|\\:\\.\\-\\+\\&\\~\\*\\=\\?]"
+    },
+    "mic": {
+      "name": "keyword.control.rune.mic.hoon",
+      "match": "(?<![a-z0-9\\-])\\;[\\:\\<\\;\\~]"
+    },
+    "sig": {
+      "name": "keyword.control.rune.sig.hoon",
+      "match": "(?<![a-z0-9\\-])\\~[\\>\\|\\$\\_\\%\\<\\+\\/\\&\\=\\?\\!]"
+    },
+    "tis": {
+      "name": "keyword.control.rune.tis.hoon",
+      "match": "(?<![a-z0-9\\-])\\=[\\|\\:\\,\\.\\<\\>\\-\\^\\+\\;\\/\\~\\*\\?]"
+    },
+    "wut": {
+      "name": "keyword.control.rune.wut.hoon",
+      "match": "(?<![a-z0-9\\-])\\?[\\|\\.\\:\\<\\>\\#\\-\\^\\+\\&\\~\\=\\@\\!]"
+    },
+    "zap": {
+      "name": "keyword.control.rune.zap.hoon",
+      "match": "(?<![a-z0-9\\-])\\![\\:\\.\\<\\>\\;\\@\\=\\?\\!]"
+    },
+    "ford-rune": {
+      "name": "keyword.control.rune.ford.hoon",
+      "match": "(?<![a-z0-9\\-])\\/[\\-\\+\\*\\=]"
+    },
+    "base": {
+      "name": "entity.name.type.base.hoon",
+      "match": "([\\^\\*\\?\\~]|\\@[a-zA-Z]*)"
+    },
+    "atom": {
+      "patterns": [
+        { "include": "#rock" },
+        { "include": "#sand" }
+      ]
+    },
+    "rock": {
+      "name": "entity.name.type.rock.hoon",
+      "match": "\\%(\\$|[0-9a-zA-Z\\-\\~\\.\\&\\|]*|'[^\\']*')"
+    },
+    "sand": {
+      "patterns": [
+        { "include": "#sand-ub" },
+        { "include": "#sand-ux" },
+        { "include": "#sand-uv" },
+        { "include": "#sand-uw" },
+        { "include": "#sand-ud" },
+        { "include": "#sand-f" },
+        { "include": "#sand-r" },
+        { "include": "#sand-sig" }
+      ]
+    },
+    "sand-ub": {
+      "name": "constant.numeric.sand.ub.hoon",
+      "match": "0b(0|1[0-1]{0,3})(\\.[0-1]{4})*"
+    },
+    "sand-ux": {
+      "name": "constant.numeric.sand.ux.hoon",
+      "match": "0x(0|[1-9a-f][0-9a-f]{0,3})(\\.[0-9a-f]{4})*"
+    },
+    "sand-uv": {
+      "name": "constant.numeric.sand.uv.hoon",
+      "match": "0v(0|[1-9a-v][0-9a-v]{0,4})(\\.[0-9a-v]{5})*"
+    },
+    "sand-uw": {
+      "name": "constant.numeric.sand.uw.hoon",
+      "match": "0w(0|[1-9a-zA-Z\\-\\~][0-9a-zA-Z\\-\\~]{0,4})(\\.[0-9a-zA-Z\\-\\~]{5})*"
+    },
+    "sand-ud": {
+      "name": "constant.numeric.sand.ud.hoon",
+      "match": "(0|[1-9][0-9]{0,2})(\\.[0-9]{3})*"
+    },
+    "sand-f": {
+      "name": "constant.language.sand.f.hoon",
+      "match": "[\\&\\|]"
+    },
+    "sand-r": {
+      "name": "constant.numeric.sand.r.hoon",
+      "match": "\\.\\~{0,3}(0|[1-9][0-9]*)(\\.[0-9]+)?"
+    },
+    "sand-sig": {
+      "name": "constant.numeric.sand.sig.hoon",
+      "match": "\\~[0-9a-zA-Z\\.\\-\\~]+"
+    },
+    "wing": {
+      "name": "variable.name.hoon",
+      "match": "([a-z][a-z0-9\\-]*|\\$)"
+    },
+    "string": {
+      "patterns": [
+        { "include": "#triplecord" },
+        { "include": "#cord" },
+        { "include": "#tripletape" },
+        { "include": "#tape" },
+        { "include": "#tell" }
+      ]
+    },
+    "cord": {
+      "match": "(')((?:[^']|(?<=\\\\)')*)(')",
+      "captures": {
+        "1": { "name": "string.quoted.single.hoon" },
+        "2": { "patterns": [ { "include": "#cord-contents" } ] },
+        "3": { "name": "string.quoted.single.hoon" }
+      }
+    },
+    "cord-contents": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.hoon",
+          "match": "\\\\(\\\\|'|[0-9a-f]{2})"
+        },
+        {
+          "name": "string.quoted.single.hoon",
+          "match": ".*?(?~\\\\(\\\\|'|[0-9a-f]{2}))"
+        }
+      ]
+    },
+    "triplecord": {
+      "name": "string.quoted.single.hoon",
+      "begin": "'''",
+      "end": "'''"
+    },
+    "tape": {
+      "match": "(\")((?:[^\"]|(?<=\\\\)\")*)(\")",
+      "captures": {
+        "1": { "name": "string.quoted.double.hoon" },
+        "2": { "patterns": [ { "include": "#tape-contents" } ] },
+        "3": { "name": "string.quoted.double.hoon" }
+      }
+    },
+    "tape-contents": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.hoon",
+          "match": "\\\\(\\\\|\\\"|\\{|[0-9a-f]{2})"
+        },
+        {
+          "match": "(\\{)(.*)(\\})",
+          "captures": {
+            "1": { "name": "string.quoted.double.knit.hoon" },
+            "2": { "patterns": [ { "include": "#hoon" } ] },
+            "3": { "name": "string.quoted.double.knit.hoon" }
+          }
+        },
+        {
+          "name": "string.quoted.double.hoon",
+          "match": ".*?(?~(\\\\(\\\\|\\\"|\\{|[0-9a-f]{2})|(\\{)(.*)(\\})))"
+        }
+      ]
+    },
+    "tripletape": {
+      "name": "string.quoted.double.hoon",
+      "begin": "\\\"\\\"\\\"",
+      "end": "\\\"\\\"\\\""
+    },
+    "tell": {
+      "match": "(<)(.*)(>)",
+      "captures": {
+        "1": { "name": "string.interpolated.hoon" },
+        "2": { "patterns": [ { "include": "#hoon" } ] },
+        "3": { "name": "string.interpolated.hoon" }
+      }
+    }
+  },
+  "scopeName": "source.hoon"
+}

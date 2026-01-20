@@ -1,0 +1,437 @@
+{
+	"name": "codelens-ai",
+	"displayName": "CodeLens AI",
+	"description": "Integrates content from multiple files, directories, and VS Code resources via sessions with persistence. Includes Git diff capabilities and directory structure copying.",
+	"version": "1.1.0",
+	"publisher": "codelens-ai",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.97.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MaheshDoiphode/codelens-ai.git"
+	},
+	"bugs": {
+		"url": "https://github.com/MaheshDoiphode/codelens-ai/issues"
+	},
+	"homepage": "https://github.com/MaheshDoiphode/codelens-ai#readme",
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"ai",
+		"llm",
+		"context",
+		"prompt",
+		"code-block",
+		"integrator",
+		"aggregator",
+		"git",
+		"diff",
+		"tree",
+		"documentation",
+		"sharing",
+		"codelens"
+	],
+	"icon": "resources/icon.png",
+	"galleryBanner": {
+		"color": "#1e1e1e",
+		"theme": "dark"
+	},
+	"main": "./out/extension.js",
+	"activationEvents": [],
+	"dependencies": {
+		"fs-extra": "^11.2.0",
+		"minimatch": "^9.0.5",
+		"uuid": "^9.0.1"
+	},
+	"devDependencies": {
+		"@types/fs-extra": "^11.0.4",
+		"@types/minimatch": "^5.1.2",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "20.x",
+		"@types/uuid": "^9.0.8",
+		"@types/vscode": "^1.97.0",
+		"@typescript-eslint/eslint-plugin": "^8.25.0",
+		"@typescript-eslint/parser": "^8.25.0",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1",
+		"eslint": "^9.21.0",
+		"ts-loader": "^9.5.2",
+		"typescript": "^5.7.3",
+		"webpack": "^5.99.9",
+		"webpack-cli": "^6.0.1"
+	},
+	"contributes": {
+		"submenus": [
+			{
+				"id": "codelensai.explorerSubmenu",
+				"label": "CodeLens"
+			}
+		],
+		"configuration": {
+			"title": "CodeLens AI",
+			"properties": {
+				"codelensai.exclude": {
+					"type": "object",
+					"description": "CONTENT EXCLUSION (Drag & Drop): Configure glob patterns for files and folders (based on file system paths) that CodeLens AI should exclude when adding items via drag and drop from the Explorer. Does not apply to items added via 'Add Active Editor'. Prepend '**/' to match files/folders anywhere in the path.",
+					"default": {
+						"**/.git": true,
+						"**/.svn": true,
+						"**/.hg": true,
+						"**/CVS": true,
+						"**/.DS_Store": true,
+						"**/node_modules": true,
+						"**/bower_components": true,
+						"**/__pycache__": true,
+						"**/*.pyc": true,
+						"**/.classpath": true,
+						"**/.project": true,
+						"**/.settings": true,
+						"**/*.class": true,
+						"**/target": true,
+						"**/bin": true,
+						"**/build": true,
+						"**/.vscode": true
+					},
+					"additionalProperties": {
+						"type": "boolean",
+						"description": "Set true to exclude matching items during drag/drop."
+					}
+				},
+				"codelensai.excludeFromTree": {
+					"type": "object",
+					"description": "STRUCTURE EXCLUSION ('Copy Directory Structure'): Configure glob patterns for files and folders (based on relative path within the copied structure) that should be excluded from the 'Copy Directory Structure' output. Uses standard glob syntax relative to the copied root.",
+					"default": {
+						".git": true,
+						".svn": true,
+						".hg": true,
+						"CVS": true,
+						".DS_Store": true,
+						"node_modules": true,
+						"bower_components": true,
+						"__pycache__": true,
+						"target": true,
+						"bin": true,
+						"build": true,
+						".vscode": true
+					},
+					"additionalProperties": {
+						"type": "boolean",
+						"description": "Set true to exclude matching relative paths from the structure output."
+					}
+				},
+				"codelensai.numberLines": {
+					"type": "boolean",
+					"default": false,
+					"description": "If enabled, each line of file content in generated session code blocks will be prefixed with its line number (1-based)."
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "codelensai.addSession",
+				"title": "New Session",
+				"icon": "$(new-folder)"
+			},
+			{
+				"command": "codelensai.removeSession",
+				"title": "Remove Session",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "codelensai.renameSession",
+				"title": "Rename Session",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "codelensai.clearSession",
+				"title": "Clear All Items from Session",
+				"icon": "$(clear-all)"
+			},
+			{
+				"command": "codelensai.generateCodeBlock",
+				"title": "Generate Code Block (Session)",
+				"icon": "$(file-binary)"
+			},
+			{
+				"command": "codelensai.copyToClipboard",
+				"title": "Copy Code Block (Session)",
+				"icon": "$(copy)"
+			},
+			{
+				"command": "codelensai.removeItem",
+				"title": "Remove Item",
+				"icon": "$(close)"
+			},
+			{
+				"command": "codelensai.refreshView",
+				"title": "Refresh View",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "codelensai.addActiveEditorToSession",
+				"title": "Add Active Editor to Session",
+				"icon": "$(add)"
+			},
+			{
+				"command": "codelensai.addAllOpenEditorsToSession",
+				"title": "Add All Open Editors to Session",
+				"icon": "$(window)"
+			},
+			{
+				"command": "codelensai.generateDiffDocument",
+				"title": "Generate Diff (Session vs HEAD)",
+				"icon": "$(git-compare)"
+			},
+			{
+				"command": "codelensai.copyDiffToClipboard",
+				"title": "Copy Diff (Session vs HEAD)",
+				"icon": "$(clippy)"
+			},
+			{
+				"command": "codelensai.generateDirectoryDiffDocument",
+				"title": "Generate Diff (Directory vs HEAD)",
+				"icon": "$(git-compare)"
+			},
+			{
+				"command": "codelensai.copyDirectoryDiffToClipboard",
+				"title": "Copy Diff (Directory vs HEAD)",
+				"icon": "$(clippy)"
+			},
+			{
+				"command": "codelensai.generateFileDiffDocument",
+				"title": "Generate Diff (File vs HEAD)",
+				"icon": "$(git-compare)"
+			},
+			{
+				"command": "codelensai.copyFileDiffToClipboard",
+				"title": "Copy Diff (File vs HEAD)",
+				"icon": "$(clippy)"
+			},
+			{
+				"command": "codelensai.copyDirectoryStructure",
+				"title": "Copy Directory Structure",
+				"icon": "$(list-ordered)"
+			},
+			{
+				"command": "codelensai.generateDirectoryCodeBlock",
+				"title": "Generate Code Block (Directory)",
+				"icon": "$(file-binary)"
+			},
+			{
+				"command": "codelensai.copyDirectoryContentToClipboard",
+				"title": "Copy Code Block (Directory)",
+				"icon": "$(copy)"
+			},
+			{
+				"command": "codelensai.undoLastRemoval",
+				"title": "Undo Last Removal",
+				"icon": "$(discard)"
+			},
+			{
+				"command": "codelensai.expandAllSubdirectories",
+				"title": "Expand All Subdirectories",
+				"icon": "$(fold-down)"
+			},
+			{
+				"command": "codelensai.addFolderToSession",
+				"title": "Add to Session (Folder)...",
+				"icon": "$(add)"
+			},
+			{
+				"command": "codelensai.addSelectionToSession",
+				"title": "Select Session",
+				"icon": "$(add)"
+			},
+			{
+				"command": "codelensai.toggleLineNumbers",
+				"title": "Toggle Line Numbers",
+				"category": "CodeLens AI",
+				"icon": "$(list-ordered)"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "codelens-ai-activitybar",
+					"title": "CodeLens AI",
+					"icon": "resources/icon2.svg"
+				}
+			]
+		},
+		"menus": {
+			"explorer/context": [
+				{
+					"submenu": "codelensai.explorerSubmenu",
+					"when": "resourceScheme == file",
+					"group": "navigation@99"
+				}
+			],
+			"codelensai.explorerSubmenu": [
+				{
+					"command": "codelensai.addSelectionToSession",
+					"when": "resourceScheme == file",
+					"group": "1_select@1"
+				}
+			],
+			"view/title": [
+				{
+					"command": "codelensai.addSession",
+					"when": "view == codeLensAiView",
+					"group": "navigation@1"
+				},
+				{
+					"command": "codelensai.refreshView",
+					"when": "view == codeLensAiView",
+					"group": "navigation@2"
+				},
+				{
+					"command": "codelensai.toggleLineNumbers",
+					"when": "view == codeLensAiView",
+					"group": "navigation@3",
+					"toggled": "config.codelensai.numberLines"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "codelensai.addActiveEditorToSession",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "inline@0"
+				},
+				{
+					"command": "codelensai.addAllOpenEditorsToSession",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "inline@0.5"
+				},
+				{
+					"command": "codelensai.generateCodeBlock",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "inline@1"
+				},
+				{
+					"command": "codelensai.copyToClipboard",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "inline@2"
+				},
+				{
+					"command": "codelensai.clearSession",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "inline@3"
+				},
+				{
+					"command": "codelensai.generateDiffDocument",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "1_diff@1"
+				},
+				{
+					"command": "codelensai.copyDiffToClipboard",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "1_diff@2"
+				},
+				{
+					"command": "codelensai.undoLastRemoval",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "2_undo@1"
+				},
+				{
+					"command": "codelensai.expandAllSubdirectories",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "3_expand_collapse@2"
+				},
+				{
+					"command": "codelensai.copyDirectoryStructure",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "4_structure@1"
+				},
+				{
+					"command": "codelensai.renameSession",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "5_modification@1"
+				},
+				{
+					"command": "codelensai.removeSession",
+					"when": "view == codeLensAiView && (viewItem == session || viewItem == sessionWithUndo)",
+					"group": "5_modification@2"
+				},
+				{
+					"command": "codelensai.generateDirectoryCodeBlock",
+					"when": "view == codeLensAiView && viewItem == resourceDirectory",
+					"group": "inline@0"
+				},
+				{
+					"command": "codelensai.copyDirectoryContentToClipboard",
+					"when": "view == codeLensAiView && viewItem == resourceDirectory",
+					"group": "inline@0.5"
+				},
+				{
+					"command": "codelensai.copyDirectoryStructure",
+					"when": "view == codeLensAiView && viewItem == resourceDirectory",
+					"group": "inline@1"
+				},
+				{
+					"command": "codelensai.generateDirectoryDiffDocument",
+					"when": "view == codeLensAiView && viewItem == resourceDirectory",
+					"group": "1_diff@1"
+				},
+				{
+					"command": "codelensai.copyDirectoryDiffToClipboard",
+					"when": "view == codeLensAiView && viewItem == resourceDirectory",
+					"group": "1_diff@2"
+				},
+				{
+					"command": "codelensai.removeItem",
+					"when": "view == codeLensAiView && viewItem == resourceDirectory",
+					"group": "2_modification@1"
+				},
+				{
+					"command": "codelensai.removeItem",
+					"when": "view == codeLensAiView && viewItem == resourceDirectory",
+					"group": "inline@2"
+				},
+				{
+					"command": "codelensai.generateFileDiffDocument",
+					"when": "view == codeLensAiView && viewItem == resourceFile",
+					"group": "1_diff@1"
+				},
+				{
+					"command": "codelensai.copyFileDiffToClipboard",
+					"when": "view == codeLensAiView && viewItem == resourceFile",
+					"group": "1_diff@2"
+				},
+				{
+					"command": "codelensai.removeItem",
+					"when": "view == codeLensAiView && viewItem == resourceFile",
+					"group": "2_modification@1"
+				},
+				{
+					"command": "codelensai.removeItem",
+					"when": "view == codeLensAiView && viewItem == resourceFile",
+					"group": "inline@0"
+				}
+			]
+		},
+		"views": {
+			"codelens-ai-activitybar": [
+				{
+					"id": "codeLensAiView",
+					"name": "CodeLens AI Sessions"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "webpack --mode production",
+		"webpack": "webpack --mode development",
+		"webpack-dev": "webpack --mode development --watch"
+	},
+	"extensionDependencies": [
+		"vscode.git"
+	],
+	"__metadata": {
+		"installedTimestamp": 1767838573792,
+		"targetPlatform": "undefined",
+		"size": 961353
+	}
+}

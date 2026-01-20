@@ -1,0 +1,73 @@
+{
+  "scopeName": "source.vb6",
+  "patterns": [
+    {
+      "name": "keyword.control.vb6",
+      "match": "\\b(If|Then|Else|ElseIf|End|Select|Case|Do|Loop|While|Wend|For|Each|Next|To|Step|Exit|Function|Sub|Return|Call|GoTo|With|Let|Set|Get|New|On Error Resume Next)\\b"
+    },
+    {
+      "name": "entity.name.function.vb6",
+      "match": "\\b(Sub|Function)\\s+(\\w+)\\b",
+      "captures": {
+        "2": {
+          "name": "entity.name.function.vb6"
+        }
+      }
+    },
+    {
+      "name": "variable.parameter.vb6",
+      "match": "\\b(ByVal|ByRef)?\\s+\\w+\\s+As\\s+(Integer|String|Boolean|Variant|Double|Long|Currency|Byte|Object|Date)\\b"
+    },
+    {
+      "name": "storage.type.vb6",
+      "match": "\\b(Dim|Private|Public|Global|Static|Const|ReDim|As|ByRef|ByVal|Optional|Integer|String|Boolean|Variant|Double|Long|Currency|Byte|Object|Date)\\b"
+    },
+    {
+      "name": "support.function.vb6",
+      "match": "\\b(MsgBox|InputBox|Len|Mid|Left|Right|Trim|UCase|LCase|CStr|CInt|IsNumeric|Now|Date|Time|Chr|Asc)\\b"
+    },
+    {
+      "name": "constant.language.vb6",
+      "match": "\\b(True|False|Nothing|Null|Empty)\\b"
+    },
+    {
+      "name": "keyword.operator.vb6",
+      "match": "[+\\-*/=<>]|<=|>=|<>"
+    },
+    {
+      "name": "meta.metadata.vb6",
+      "match": "^(VERSION|BEGIN|END|Attribute)\\b.*"
+    },
+    {
+      "name": "comment.line.apostrophe.vb6",
+      "begin": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.vb6"
+        }
+      },
+      "end": "$\\n?"
+    },
+    {
+      "name": "string.quoted.double.vb6",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.vb6"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.vb6"
+        }
+      }
+    },
+    {
+      "name": "constant.numeric.vb6",
+      "match": "\\b\\d+(\\.\\d+)?\\b"
+    }
+  ],
+  "repository": {},
+  "name": "vb6"
+}

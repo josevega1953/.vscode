@@ -1,0 +1,48 @@
+{
+	"name": "VBSyxer",
+	"displayName": "VB6 Syntax Highlighter",
+	"description": "Rich syntax highlighting for Visual Basic 6 (.vbp, .frm, .bas, .cls, .ctl) files",
+	"version": "0.0.3",
+	"publisher": "MrF86",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fabriziopaino/vb6-syntax-highlighter"
+	},
+	"engines": {
+		"vscode": "^1.50.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "vb6",
+				"aliases": [
+					"VB6",
+					"Visual Basic 6"
+				],
+				"extensions": [
+					".vbp",
+					".frm",
+					".bas",
+					".cls",
+					".ctl"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "vb6",
+				"scopeName": "source.vb6",
+				"path": "./syntaxes/vb6.tmLanguage.json"
+			}
+		]
+	},
+	"__metadata": {
+		"installedTimestamp": 1767838570249,
+		"targetPlatform": "undefined",
+		"size": 5881
+	}
+}

@@ -1,0 +1,7 @@
+
+Generate token:
+  Docs- https://code.visualstudio.com/api/working-with-extensions/publishing-extension
+  Org Site- https://dev.azure.com/hansec
+
+Publish:
+  vsce publish [major,minor,path,X.X.X]
